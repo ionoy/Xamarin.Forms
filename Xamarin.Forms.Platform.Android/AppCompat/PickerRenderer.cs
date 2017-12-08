@@ -8,6 +8,7 @@ using Android.Widget;
 using Object = Java.Lang.Object;
 using System.Collections.Specialized;
 using Android.Content;
+using Xamarin.Forms.PlatformConfiguration.AndroidSpecific;
 
 namespace Xamarin.Forms.Platform.Android.AppCompat
 {
@@ -61,7 +62,11 @@ namespace Xamarin.Forms.Platform.Android.AppCompat
 					textField.Tag = this;
 					textField.InputType = InputTypes.Null;
 					textField.SetOnClickListener(PickerListener.Instance);
-					_textColorSwitcher = new TextColorSwitcher(textField.TextColors);
+
+					var useLegacyColorManagement = VisualStateManager.GetVisualStateGroups(e.NewElement) == null
+													&& e.NewElement.OnThisPlatform().GetIsLegacyColorModeEnabled();
+					_textColorSwitcher = new TextColorSwitcher(textField.TextColors, useLegacyColorManagement);
+					
 					SetNativeControl(textField);
 				}
 				UpdatePicker();
