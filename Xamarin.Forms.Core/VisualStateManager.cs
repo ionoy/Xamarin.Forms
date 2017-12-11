@@ -3,22 +3,15 @@ using System.Collections.ObjectModel;
 
 namespace Xamarin.Forms
 {
-	internal static class VisualStateGroupCollectionExtensions
-	{
-		internal static Collection<VisualStateGroup> Clone(this Collection<VisualStateGroup> groups)
-		{
-			var actual = new Collection<VisualStateGroup>();
-			foreach (var s in groups)
-			{
-				actual.Add(s.Clone());
-			}
-
-			return actual;
-		}
-	}
-
 	public static class VisualStateManager
 	{
+		internal class CommonStates
+		{
+			internal const string Normal = "Normal";
+			internal const string Disabled = "Disabled";
+			internal const string Focused = "Focused";
+		}
+
 		public static readonly BindableProperty VisualStateGroupsProperty =
 			BindableProperty.CreateAttached("VisualStateGroups", typeof(Collection<VisualStateGroup>), typeof(VisualElement), 
 				defaultValue: null, propertyChanged: VisualStateGroupsPropertyChanged);
@@ -28,7 +21,7 @@ namespace Xamarin.Forms
 			if (bindable is VisualElement visualElement)
 			{
 				// Start out in the Normal state, if one is defined
-				GoToState(visualElement, "Normal");
+				GoToState(visualElement, CommonStates.Normal);
 			}
 		}
 
@@ -151,4 +144,17 @@ namespace Xamarin.Forms
 		}
 	}
 
+	internal static class VisualStateGroupCollectionExtensions
+	{
+		internal static Collection<VisualStateGroup> Clone(this Collection<VisualStateGroup> groups)
+		{
+			var actual = new Collection<VisualStateGroup>();
+			foreach (var group in groups)
+			{
+				actual.Add(group.Clone());
+			}
+
+			return actual;
+		}
+	}
 }
