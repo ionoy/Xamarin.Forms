@@ -42,11 +42,6 @@ namespace Xamarin.Forms
 				return false;
 			}
 
-			// TODO hartez 2017/02/08 17:53:46 Figure out what UWP does about duplicate state names inside of groups and between groups	
-			// Right now, if there are duplicates we don't throw any exceptions, and the first one found will always win
-			// I think in UWP since everything comes from XAML x:Name is doing the enforcement; if we're going to allow creation
-			// of VSM stuff from code (and we are), we need to enforce names on our own
-
 			foreach (VisualStateGroup group in groups)
 			{
 				if (group.CurrentState?.Name == name)
